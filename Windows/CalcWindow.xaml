@@ -1,0 +1,133 @@
+﻿<Window x:Class="CookieEdit2.CalcWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        mc:Ignorable="d"
+        Title="CalcWindow" Height="503.671" Width="555.782" Background="#FF1F1F1F" KeyDown="Window_KeyDown">
+
+    <Window.Resources>
+        <!--<Style TargetType="Button">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontFamily" Value="Myriad Pro"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Background" Value="#7F132957"/>
+            <Setter Property="Foreground" Value="#FFEAEAEA"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="Margin" Value="1"/>
+        </Style>-->
+
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FF0081BD"/>
+    </Window.Resources>
+    <DockPanel LastChildFill="True">
+
+        <StatusBar DockPanel.Dock="Bottom" Background="#FF343434" BorderBrush="black" BorderThickness="0,1,0,0">
+            <TextBlock x:Name="statusBar" Foreground="White" Text="" />
+        </StatusBar>
+
+        <Grid Margin="0,0,0,0" DockPanel.Dock="Top">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border BorderThickness="5">
+                <Grid Margin="0,0,3,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1.5*"/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBox x:Name="tb_Input" Grid.Row="0" Grid.ColumnSpan="5" Margin="2" FontSize="30" HorizontalContentAlignment="Right" SelectionBrush="#FFD7CD00" KeyUp="tb_Input_KeyUp"/>
+                    <TextBox x:Name="tb_Output" Grid.Row="1" Grid.ColumnSpan="4" Margin="2" FontSize="30" Text="0" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" SelectionBrush="#FFBAD700" />
+
+                    <Button x:Name="btn_Eval" IsDefault="True" Grid.Column="5" Grid.Row="1" Content="=" Background="#FF084225" Click="btn_Eval_Click"/>
+
+                    <Button x:Name="btn_sin" Grid.Column="0" Grid.Row="2" Background="#7F133B57" Click="btn_sin_Click" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <Grid>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,5">sin()</TextBlock>
+                            <TextBlock FontSize="12" VerticalAlignment="Bottom" HorizontalAlignment="Right">asin()</TextBlock>
+                        </Grid>
+                    </Button>
+
+                    <Button x:Name="btn_7" Grid.Column="0" Grid.Row="3" Content="7" Click="btn_7_Click"/>
+                    <Button x:Name="btn_4" Grid.Column="0" Grid.Row="4" Content="4" Click="btn_4_Click"/>
+                    <Button x:Name="btn_1" Grid.Column="0" Grid.Row="5" Content="1" Click="btn_1_Click"/>
+                    <Button x:Name="btn_pound" Grid.Column="0" Grid.Row="6" Content="#"/>
+                    <Button Grid.Column="0" Grid.Row="7" Content="deg"/>
+
+                    <Button x:Name="btn_cos" Grid.Column="1" Grid.Row="2" Background="#7F133B57" Click="btn_cos_Click" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <Grid>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,5">cos()</TextBlock>
+                            <TextBlock FontSize="12" VerticalAlignment="Bottom" HorizontalAlignment="Right">acos()</TextBlock>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="btn_8" Grid.Column="1" Grid.Row="3" Content="8" Click="btn_8_Click"/>
+                    <Button x:Name="btn_5" Grid.Column="1" Grid.Row="4" Content="5" Click="btn_5_Click"/>
+                    <Button x:Name="btn_2" Grid.Column="1" Grid.Row="5" Content="2" Click="btn_2_Click"/>
+                    <Button x:Name="btn_0" Grid.Column="1" Grid.Row="6" Content="0" Click="btn_0_Click"/>
+                    <Button x:Name="btn_Sqrt" Grid.Column="1" Grid.Row="7" Content="√" FontSize="25" Click="btn_Sqrt_Click"/>
+
+                    <Button x:Name="btn_tan" Grid.Column="2" Grid.Row="2" Background="#7F133B57" Click="btn_tan_Click" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                        <Grid>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,5">tan()</TextBlock>
+                            <TextBlock FontSize="12" VerticalAlignment="Bottom" HorizontalAlignment="Right">atan()</TextBlock>
+                        </Grid>
+                    </Button>
+                    <Button x:Name="btn_9" Grid.Column="2" Grid.Row="3" Content="9" Click="btn_9_Click"/>
+                    <Button x:Name="btn_6" Grid.Column="2" Grid.Row="4" Content="6" Click="btn_6_Click"/>
+                    <Button x:Name="btn_3" Grid.Column="2" Grid.Row="5" Content="3" Click="btn_3_Click"/>
+                    <Button x:Name="btn_period" Grid.Column="2" Grid.Row="6" Content="." Click="btn_period_Click"/>
+                    <Button Grid.Column="2" Grid.Row="7" Content=""/>
+
+                    <Button x:Name="btn_pi" Grid.Column="3" Grid.Row="2" Content="pi" Background="#7F133B57" Click="btn_pi_Click"/>
+                    <Button x:Name="btn_multiply" Grid.Column="3" Grid.Row="3" Content="x" Background="#FF203052" Click="btn_multiply_Click" FontSize="20"/>
+                    <Button x:Name="btn_divide" Grid.Column="3" Grid.Row="4" Content="/" Background="#FF203052" Click="btn_divide_Click" FontSize="20"/>
+                    <Button x:Name="btn_add" Grid.Column="3" Grid.Row="5" Content="+" Background="#FF203052" Click="btn_add_Click" FontSize="20"/>
+                    <Button x:Name="btn_minus" Grid.Column="3" Grid.Row="6" Content="-" Background="#FF203052" Click="btn_minus_Click" FontSize="20"/>
+                    <Button Grid.Column="3" Grid.Row="7" Content=""/>
+
+                    <Button x:Name="btn_clr" Grid.Column="4" Grid.Row="2" Content="Clr" Background="#7F214185" Click="btn_clr_Click" />
+                    <Button x:Name="btn_bksp" Grid.Column="4" Grid.Row="3" Content="&lt;--"/>
+                    <Button x:Name="btn_braces" Grid.Column="4" Grid.Row="4" Content="(x)" Click="btn_braces_Click"/>
+                    <Button Grid.Column="4" Grid.Row="5">
+                        <TextBlock>
+                            <Run>X</Run>
+                            <Run Typography.Variants="Superscript">2</Run>
+                        </TextBlock>
+                    </Button>
+                    <Button Grid.Column="4" Grid.Row="6" Content=""/>
+                    <Button Grid.Column="4" Grid.Row="7" Content="" Click="Button_Click"/>
+
+                </Grid>
+            </Border>
+            <GridSplitter  Width="3" HorizontalContentAlignment="Stretch"/>
+
+            <Border  Grid.Column="1" BorderThickness="5">
+                <DockPanel Margin="0">
+                    <TextBlock Text="Recent:" DockPanel.Dock="Top" HorizontalAlignment="Center" 
+                               Foreground="White" FontSize="20"/>
+                    <ListBox x:Name="listBox_history" Margin="1" FontSize="14" 
+                             HorizontalContentAlignment="Right" 
+                             VerticalContentAlignment="Center" 
+                             Background="#FF1D3B64" BorderBrush="#FFAAAAAA" Foreground="White" />
+                </DockPanel>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>

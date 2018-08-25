@@ -1,0 +1,198 @@
+﻿ <Window
+    x:Class="CookieEdit2.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:CookieEdit2"
+    xmlns:d3d="clr-namespace:Flaxen.SlimDXControlLib;assembly=Flaxen.SlimDXControlLib"
+    xmlns:FastColoredTextBoxNS="clr-namespace:FastColoredTextBoxNS;assembly=FastColoredTextBox" x:Name="mainWindowControl"
+    mc:Ignorable="d"
+    Title="CookieEdit v2.0" Height="423.5" Width="467.333" BorderBrush="Black" Loaded="MainWindowControl_Loaded" Foreground="White" OpacityMask="Black" Icon="resources\icons\cookie.png" Background="#FF2E2E2E">
+    <Window.Resources>
+
+        
+        
+        <ContextMenu x:Key="cmButton">
+            <ContextMenu.CommandBindings>
+                <CommandBinding Command="Cut" Executed="CutCommand_Executed" CanExecute="CanExecute_IsTextSelected"/>
+                <CommandBinding Command="Copy" Executed="CopyCommand_Executed" CanExecute="CanExecute_IsTextSelected"/>
+                <CommandBinding Command="Paste" Executed="PasteCommand_Executed" CanExecute="CanExecute_True"/>
+            </ContextMenu.CommandBindings>
+            <MenuItem Header="Cut" Command="Cut" CommandTarget="{Binding ElementName=MainWindow}" InputGestureText="Ctrl+X"/>
+            <MenuItem Header="Copy" Command="Copy" CommandTarget="{Binding ElementName=MainWindow}" InputGestureText="Ctrl+C" />
+            <Separator />
+            <MenuItem Header="Paste"  Command="Paste" CommandTarget="{Binding ElementName=MainWindow}" InputGestureText="Ctrl+V" />
+        </ContextMenu>
+
+    </Window.Resources>
+
+    <Window.CommandBindings>
+        <CommandBinding Command="New"    CanExecute="CanExecute_True"           Executed="NewCommand_Executed" />
+        <CommandBinding Command="Open"   CanExecute="CanExecute_True"           Executed="OpenCommand_Executed" />
+        <CommandBinding Command="Save"   CanExecute="CanExecute_True"           Executed="SaveCommand_Executed" />
+        <CommandBinding Command="SaveAs" CanExecute="CanExecute_True"           Executed="SaveAsCommand_Executed" />
+        <CommandBinding Command="Undo"   CanExecute="CanExecute_True"           Executed="UndoCommand_Executed" />
+        <CommandBinding Command="Redo"   CanExecute="CanExecute_True"           Executed="RedoCommand_Executed" />
+        <CommandBinding Command="Cut"    CanExecute="CanExecute_IsTextSelected" Executed="CutCommand_Executed" />
+        <CommandBinding Command="Copy"   CanExecute="CanExecute_IsTextSelected" Executed="CopyCommand_Executed" />
+        <CommandBinding Command="Paste"  CanExecute="CanExecute_True"           Executed="PasteCommand_Executed" />
+        <CommandBinding Command="Find"   CanExecute="CanExecute_True"           Executed="FindCommand_Executed" />
+        <!--<CommandBinding Command="FindAndReplace"  CanExecute="CanExecute_True"  Executed="FindReplaceCommand_Executed" />
+        <CommandBinding Command="Format"  CanExecute="CanExecute_True"          Executed="FormatCommand_Executed" />-->
+
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="S" Modifiers="Ctrl+Shift" Command="SaveAs"></KeyBinding>
+        <KeyBinding Key="N" Modifiers="Ctrl" Command="New"></KeyBinding>
+    </Window.InputBindings>
+
+    <DockPanel>
+
+        <!--Dock TOP-->
+        <Border DockPanel.Dock="Top" Margin="0" Height="21" BorderThickness="0,0,0,1" BorderBrush="Black">
+            <Menu >
+                
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New" Command="New" InputGestureText="Ctrl+N"/>
+                    <MenuItem x:Name="menu_OpenItem" Header="_Open" Command="Open"/>
+                    <MenuItem Header="_Save" Command="Save" InputGestureText="Ctrl+S"/>
+                    <MenuItem Header="S_ave As" Command="SaveAs" InputGestureText="Ctrl+Shift+S"/>
+                    <Separator Style="{DynamicResource SubMenuSeperator}" Background="#FF1D4C63"/>
+                    <MenuItem Header="_Quit" />
+                </MenuItem>
+
+                <MenuItem Header="_Edit">
+                    <MenuItem Header="_Undo" Command="Undo"/>
+                    <MenuItem Header="_Redo" Command="Redo"/>
+                    <Separator Style="{DynamicResource SubMenuSeperator}" Background="#FF1D4C63"/>
+                    <MenuItem Header="_Cut" Command="Cut"/>
+                    <MenuItem Header="_Copy" Command="Copy"/>
+                    <MenuItem Header="_Paste" Command="Paste"/>
+                    <Separator Style="{DynamicResource SubMenuSeperator}" Background="#FF1D4C63"/>
+                    <MenuItem Header="_Find" Command="Find"/>
+                    <MenuItem Header="_Find/Replace" />
+                    <MenuItem Header="_Reformat" />
+                </MenuItem>
+
+                <MenuItem Header="_SerialIO" >
+                    <MenuItem Header="_Quick Send"/>
+                    <MenuItem Header="_Active Machine" />
+                    <MenuItem Header="_Open GUI" />
+                </MenuItem>
+
+                <MenuItem Header="Macro Variables">
+                    <MenuItem Header="_Open GUI"  Click="OpenMacroGUIMenuItem_Click" />
+                </MenuItem>
+
+            </Menu>
+        </Border>
+        <StatusBar DockPanel.Dock="Bottom" BorderBrush="Black" Background="{StaticResource MenuBackgroundBrush}" Foreground="{StaticResource MenuTextColor}" Margin="0" BorderThickness="0,1,0,0">
+            <TextBlock></TextBlock>
+        </StatusBar>
+
+        <Grid x:Name="MainGrid"  >
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="grid_left" Width="1.5*"/>
+                <ColumnDefinition x:Name="grid_right"  Width="1*"/>
+            </Grid.ColumnDefinitions>
+
+            <DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                        <Button Style="{StaticResource toolbarButtonStyle}" BorderBrush="Black" Click="Button_Click">
+                            <Image  Width="15" Height="15" Source="/resources/icons/24x24/folder.png"/>
+                        </Button>
+                        <Button Style="{StaticResource toolbarButtonStyle}" BorderBrush="Black">
+                            <Image  Width="15" Height="15" Source="/resources/icons/24x24/save.png"/>
+                        </Button>
+                        <Button Style="{StaticResource toolbarButtonStyle}" BorderBrush="Black">
+                            <Image  Width="15" Height="15" Source="/resources/icons/24x24/delete.png"/>
+                        </Button>
+                        <Button Style="{StaticResource toolbarButtonStyle}" BorderBrush="Black" Click="OpenMacroGUIMenuItem_Click">
+                            <Image  Width="15" Height="15" Source="/resources/icons/24x24/Sum.png"/>
+                        </Button>
+                        <Button Style="{StaticResource toolbarButtonStyle}" Click="CalcToolbarButton_Click">
+
+                            <Image  Width="15" Height="15" Source="/resources/icons/24x24/Calculator.png"/>
+                        </Button>
+                        <Button Style="{StaticResource toolbarButtonStyle}" Click="expToolbarButton_Click">
+                            <Image  Width="15" Height="15" Source="/resources/icons/24x24/Alien.png"/>
+                        </Button>
+                        
+                    </StackPanel>
+                    
+                    <Button Style="{StaticResource toolbarButtonStyle}" Click="Toggle3DToolbarButton_Click" HorizontalAlignment="Right">
+                        <Image  Width="15" Height="15" Source="/resources/icons/24x24/Zoom.png"/>
+                    </Button>
+                </DockPanel>
+               
+
+                <WindowsFormsHost x:Name="FCTBHost" Foreground="#FFD1D1D1" FontFamily="Consolas" FontSize="14" Background="#FF2E2E2E" Margin="0,0,1,0" >
+                    <FastColoredTextBoxNS:FastColoredTextBox x:Name="fctb" 
+                        Multiline="True" RightBracket="]" 
+                        RightBracket2=")" LeftBracket="[" 
+                        LeftBracket2="(" 
+                        Hotkeys="Tab=IndentIncrease, Escape=ClearHints, 
+                        PgUp=GoPageUp, PgDn=GoPageDown, End=GoEnd, 
+                        Home=GoHome, Left=GoLeft, Up=GoUp, Right=GoRight, 
+                        Down=GoDown, Ins=ReplaceMode, Del=DeleteCharRight, 
+                        F3=FindNext, Shift+Tab=IndentDecrease, Shift+PgUp=GoPageUpWithSelection, 
+                        Shift+PgDn=GoPageDownWithSelection, Shift+End=GoEndWithSelection, 
+                        Shift+Home=GoHomeWithSelection, Shift+Left=GoLeftWithSelection, 
+                        Shift+Up=GoUpWithSelection, Shift+Right=GoRightWithSelection, 
+                        Shift+Down=GoDownWithSelection, Shift+Ins=Paste, Shift+Del=Cut, 
+                        Ctrl+Back=ClearWordLeft, Ctrl+Space=AutocompleteMenu, 
+                        Ctrl+End=GoLastLine, Ctrl+Home=GoFirstLine, Ctrl+Left=GoWordLeft, 
+                        Ctrl+Up=ScrollUp, Ctrl+Right=GoWordRight, Ctrl+Down=ScrollDown , 
+                        Ctrl+Ins=Copy, Ctrl+Del=ClearWordRight, Ctrl+0=ZoomNormal, 
+                        Ctrl+A=SelectAll, Ctrl+B=BookmarkLine, Ctrl+C=Copy, 
+                        Ctrl+E=MacroExecute, Ctrl+F=FindDialog, Ctrl+G=GoToDialog, 
+                        Ctrl+H=ReplaceDialog, Ctrl+I=AutoIndentChars, Ctrl+M=MacroRecord, 
+                        Ctrl+N=GoNextBookmark, Ctrl+R=Redo, Ctrl+U=UpperCase, 
+                        Ctrl+V=Paste, Ctrl+X=Cut, Ctrl+Z=Undo, Ctrl+Add=ZoomIn, 
+                        Ctrl+Subtract=ZoomOut, Ctrl+OemMinus=NavigateBackward, 
+                        Ctrl+Shift+End=GoLastLineWithSelection, Ctrl+Shift+Home=GoFirstLineWithSelection, 
+                        Ctrl+Shift+Left=GoWordLeftWithSelection, Ctrl+Shift+Right=GoWordRightWithSelection, 
+                        Ctrl+Shift+B=UnbookmarkLine, Ctrl+Shift+C=CommentSelected, 
+                        Ctrl+Shift+N=GoPrevBookmark, Ctrl+Shift+U=LowerCase, 
+                        Ctrl+Shift+OemMinus=NavigateForward, Alt+Back=Undo, Alt+Up=MoveSelectedLinesUp,
+                        Alt+Down=MoveSelectedLinesDown, Alt+F=FindChar, Alt+Shift+Left=GoLeft_ColumnSelectionMode, 
+                        Alt+Shift+Up=GoUp_ColumnSelectionMode, Alt+Shift+Right=GoRight_ColumnSelectionMode, 
+                        Alt+Shift+Down=GoDown_ColumnSelectionMode" BorderStyle="None" UseWaitCursor="False" 
+                        Text="G1 M1 S0 N0 X0.0 Y0.0 Z0.0 I0.0 J0.0 K0.0 (comment)" 
+                        AutoSize="True"
+                        AutoSizeMode="GrowAndShrink" BackColor="Black" ForeColor="White" VisibleChanged="Fctb_VisibleChanged" Resize="Fctb_Resize" 
+                        BookmarkColor="#b90000" CaretColor="#92d0ff" ChangedLineColor="#55ff0000" IndentBackColor="#0f141f" ServiceLinesColor="Black" PaddingBackColor="#223366"
+                        SelectionColor="#ffffff" LineNumberColor="#d7e0e5" Scroll="Fctb_Scroll" MouseClick="fctb_MouseClick" TextChangedDelayed="fctb_TextChanged" />
+                </WindowsFormsHost>
+            </DockPanel>
+
+            <!--CenterDock-->
+
+            <GridSplitter Grid.Column="1" Grid.Row ="2" Grid.RowSpan="1" VerticalAlignment="Stretch"
+              Background="#FF255187" ShowsPreview="true" Width="2" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="-1,0,0,0" BorderBrush="Black"/>
+
+            <DockPanel Grid.Column="1">
+                <StackPanel x:Name="graphicsToolbar" Orientation="Horizontal" FlowDirection="LeftToRight" DockPanel.Dock="Top" Margin="1,0,0,0">
+                    <Button Style="{StaticResource toolbarButtonStyle}" />
+                    <Button Style="{StaticResource toolbarButtonStyle}" />
+                    <Button Style="{StaticResource toolbarButtonStyle}" />
+                    <Button Style="{StaticResource toolbarButtonStyle}" />
+                </StackPanel>
+
+                <d3d:SlimDXControl x:Name="SDXControl" KeyDown="x_contentControl1_KeyDown"/>
+
+            </DockPanel>
+
+            <!--<WindowsFormsHost x:Name="DXHost" Grid.Row="1" Background="DarkSlateGray" Margin="2,0,0,0" />-->
+
+        </Grid>
+    </DockPanel>
+
+
+</Window>

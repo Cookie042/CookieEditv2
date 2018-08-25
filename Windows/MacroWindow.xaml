@@ -1,0 +1,114 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:s="clr-namespace:System;assembly=mscorlib"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CookieEdit2"
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="CookieEdit2.MacroWindow"
+        mc:Ignorable="d"
+        Title="Macro Variables" Height="304" Loaded="Window_Loaded" Closed="Window_Closed" >
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="ListBorder" Color="#828790"/>
+        <SolidColorBrush x:Key="Listbox.HighlightbgColor" Color="red"/>
+        <SolidColorBrush x:Key="Listbox.HighlightTextColor" Color="White"/>
+        <Style x:Key="ListViewItemFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle RadiusY="2" RadiusX="2" Stroke="#CC102689" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="ListItemHoverFill" Color="DarkGreen"/>
+        <SolidColorBrush x:Key="ListItemSelectedFill" Color="DarkGreen"/>
+        <SolidColorBrush x:Key="ListItemSelectedInactiveFill" Color="DarkGreen"/>
+        <SolidColorBrush x:Key="ListItemSelectedHoverFill" Color="DarkGreen"/>
+
+        <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemFocusVisual}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="0,0,0,1"/>
+            <Setter Property="Padding" Value="5,2,5,2"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="2" SnapsToDevicePixels="true">
+                            <Border x:Name="InnerBorder" BorderThickness="1" CornerRadius="1">
+                                <Grid>
+                                    <GridViewRowPresenter Grid.RowSpan="2" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Grid>
+                            </Border>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" Value="{StaticResource ListItemHoverFill}"/>
+                                <Setter Property="BorderBrush" Value="#FFCCF0FF"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Setter Property="Background" Value="{StaticResource ListItemSelectedFill}"/>
+                                <Setter Property="BorderBrush" Value="#FF98DDFB"/>
+                                <Setter Property="BorderBrush" TargetName="InnerBorder" Value="#80FFFFFF"/>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true"/>
+                                    <Condition Property="Selector.IsSelectionActive" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" Value="{StaticResource ListItemSelectedInactiveFill}"/>
+                                <Setter Property="BorderBrush" Value="#FFCFCFCF"/>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true"/>
+                                    <Condition Property="IsMouseOver" Value="true"/>
+                                </MultiTrigger.Conditions>
+                                <Setter Property="Background" Value="{StaticResource ListItemSelectedHoverFill}"/>
+                                <Setter Property="BorderBrush" Value="#FF98DDFB"/>
+                            </MultiTrigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <ListView x:Name="macroListBox" Grid.Row="1" SelectionMode="Single" Height="auto" Background="#FF2E2E2E" Foreground="#FFFBFBFB" BorderBrush="#FF4264A2" Style="{DynamicResource DarkListviewStyle}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Id" Width="50" DisplayMemberBinding="{Binding Value.id}"/>
+                    <GridViewColumn Header="Name" Width="50" DisplayMemberBinding="{Binding Value.name}"/>
+                    <GridViewColumn Header="Value" Width="Auto">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Width="100" Text="{Binding Value.value}" Margin="0" MinHeight="23"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                </GridView>
+
+            </ListView.View>
+        </ListView>
+    </Grid>
+
+</Window>
