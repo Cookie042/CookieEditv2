@@ -4,8 +4,12 @@ using Flaxen.SlimDXControlLib;
 using SlimDX;
 using SlimDX.D3DCompiler;
 using SlimDX.Direct3D10;
-using SlimDX.DXGI;
+using SlimDX.Direct3D9;
 using Buffer = SlimDX.Direct3D10.Buffer;
+using Effect = SlimDX.Direct3D10.Effect;
+using Format = SlimDX.DXGI.Format;
+using ShaderFlags = SlimDX.D3DCompiler.ShaderFlags;
+using Viewport = SlimDX.Direct3D10.Viewport;
 
 namespace CookieEdit2
 {
@@ -34,6 +38,8 @@ namespace CookieEdit2
         private DataStream m_sampleStream;
         private Buffer m_sampleVertices;
         private Vector3 m_worldUp;
+
+        private const double pi2 = Math.PI * 2;
 
         private readonly float orbitDia = 10;
 
@@ -97,7 +103,7 @@ namespace CookieEdit2
             CameraPosition = new Vector3(orbitDia * (float) Math.Cos(t * Math.PI + Math.PI), 2,
                 orbitDia * (float) Math.Sin(t * Math.PI + Math.PI));
 
-            Device.ClearRenderTargetView(SampleRenderView, new Color4(1.0f, .1f, .1f, .1f));
+            Device.ClearRenderTargetView(SampleRenderView, new Color4(1.0f, .4f, .2f, .2f));
 
             Device.InputAssembler.SetInputLayout(m_sampleLayout);
             Device.InputAssembler.SetPrimitiveTopology(PrimitiveTopology.TriangleList);
