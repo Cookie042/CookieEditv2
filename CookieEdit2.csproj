@@ -59,13 +59,21 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LoreSoft.MathExpressions">
-      <HintPath>..\repos\libs\expressions\LoreSoft.MathExpressions.dll</HintPath>
+    <Reference Include="FastColoredTextBox">
+      <HintPath>..\FCTB\FastColoredTextBox\obj\Release\FastColoredTextBox.dll</HintPath>
+    </Reference>
+    <Reference Include="Flaxen.SlimDXControlLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\slimdxcontrol\SlimDXControlLib\bin\x64\Release\Flaxen.SlimDXControlLib.dll</HintPath>
+    </Reference>
+    <Reference Include="LoreSoft.MathExpressions, Version=1.2.1.0, Culture=neutral, PublicKeyToken=21aab55c9ead0cb8, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Calculator-master\Source\LoreSoft.MathExpressions\obj\x64\Release\LoreSoft.MathExpressions.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\SlimDX SDK (January 2012)\Bin\net40\x64\SlimDX.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\SlimDX SDK (January 2012)\Bin\net40\x64\SlimDX.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -865,16 +873,6 @@
     <Resource Include="resources\Icons\24x24\Zoom.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\repos\FastColoredTextBox\FastColoredTextBox.csproj">
-      <Project>{6dd14a85-ccfc-4774-bd26-0f5772512319}</Project>
-      <Name>FastColoredTextBox</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\repos\slimdxcontrol-1.0.0\SlimDXControlLib\SlimDXControlLib.csproj">
-      <Project>{dbebb228-9b42-4b9a-b658-8588977a159e}</Project>
-      <Name>SlimDXControlLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
