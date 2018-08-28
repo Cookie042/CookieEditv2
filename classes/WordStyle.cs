@@ -10,7 +10,7 @@ namespace CookieEdit2
     {
 
         //regex for float
-        private const string F = @"-?\d*\.*\d*";
+        private const string F = @"-?(\d+\.?\d*|\d*\.?\d+)";
         //regex for float
         private const string I = @"\d+";
 
