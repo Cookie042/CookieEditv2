@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:CookieEdit2"
         xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="CookieEdit2.MacroWindow"
         mc:Ignorable="d"
-        Title="Macro Variables" Height="304" Loaded="Window_Loaded" Closed="Window_Closed" >
+        Title="Macro Variables" Height="304" Loaded="Window_Loaded" Closed="Window_Closed" Width="427.551" >
 
     <Window.Resources>
         <SolidColorBrush x:Key="ListBorder" Color="#828790"/>

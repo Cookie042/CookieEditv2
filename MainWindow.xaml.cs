@@ -20,6 +20,8 @@ namespace CookieEdit2
     public partial class MainWindow : Window
     {
 
+        public SlimDXControl SDXControl;
+
         public static MainWindow instance = null;
 
         private static string windowTitle = "CookieEdit v2.0";
@@ -40,8 +42,13 @@ namespace CookieEdit2
 
             instance = this;
 
+            SDXControl = new SlimDXControl();
+            SDXControl.KeyDown += x_contentControl1_KeyDown;
+
             Flaxen.SlimDXControlLib.RenderEngine re1 = new RenderEngine(true, SDXControl);
             SDXControl.RegisterRenderer(re1);
+
+            dp.Children.Add(SDXControl);
         }
 
         //LOAD EVENT
@@ -71,6 +78,8 @@ G28 X0 Y0 Z0
             fctb.ClearUndo();
 
             FctbColorVisibleRangeWithStyles();
+
+            // initialize sdx control object
         }
 
         private void InitializeFastColoredTextbox()
@@ -133,7 +142,8 @@ G28 X0 Y0 Z0
             {
                 Title = windowTitle + " - " + openFilePath;
 
-            } else
+            }
+            else
             {
                 Title = windowTitle;
             }
@@ -179,7 +189,7 @@ G28 X0 Y0 Z0
         {
             FctbColorVisibleRangeWithStyles();
         }
-        
+
         private void fctb_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             //ShowContextMenu
@@ -225,7 +235,7 @@ G28 X0 Y0 Z0
         {
             Debug.WriteLine(e.Key.ToString());
         }
-        
+
         private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFileDlg();
@@ -247,17 +257,18 @@ G28 X0 Y0 Z0
                 SDXControl.IsEnabled = true;
                 Show3dView = true;
 
-            } else
+            }
+            else
             {
                 SDXControl.IsEnabled = false;
                 GraphicsGridWidth = grid_right.Width;
-                var w = new GridLength(0, GridUnitType.Pixel);
+                var w = new GridLength(1, GridUnitType.Pixel);
                 grid_right.Width = w;
                 Show3dView = false;
             }
 
         }
-        
+
 
         private void RedoCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
