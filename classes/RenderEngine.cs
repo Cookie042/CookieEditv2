@@ -103,7 +103,7 @@ namespace CookieEdit2
             CameraPosition = new Vector3(orbitDia * (float) Math.Cos(t * Math.PI + Math.PI), 2,
                 orbitDia * (float) Math.Sin(t * Math.PI + Math.PI));
 
-            Device.ClearRenderTargetView(SampleRenderView, new Color4(1.0f, .4f, .2f, .2f));
+            Device.ClearRenderTargetView(SampleRenderView, new Color4(1.0f, .1f, .1f, .1f));
 
             Device.InputAssembler.SetInputLayout(m_sampleLayout);
             Device.InputAssembler.SetPrimitiveTopology(PrimitiveTopology.TriangleList);

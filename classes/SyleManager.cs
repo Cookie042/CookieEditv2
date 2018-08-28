@@ -48,21 +48,21 @@ namespace CookieEdit2
             if (!File.Exists(path))
             {
                 //-------------------DEFAULT SETTINGS-------------------
-                WordStyles.Add(new WordStyle("Keywords", true, false, @"(IF|SQRT|ABS|FIX)", true, true, false, Color.Aqua));
-                WordStyles.Add(new WordStyle("G Word", true, true, @"G", true, true, false, Color.FromArgb(255, 237, 139, 37)));
-                WordStyles.Add(new WordStyle("X Word", true, true, @"X", true, true, false, Color.FromArgb(255, 195, 0, 0)));
-                WordStyles.Add(new WordStyle("Y Word", true, true, @"Y", true, true, false, Color.FromArgb(255, 5, 176, 69)));
-                WordStyles.Add(new WordStyle("Z Word", true, true, @"Z", true, true, false, Color.FromArgb(255, 8, 148, 215)));
-                WordStyles.Add(new WordStyle("I Word", true, true, @"(I|U|A)", true, true, false, Color.FromArgb(255, 224, 113, 113)));
-                WordStyles.Add(new WordStyle("J Word", true, true, @"(J|V|B)", true, true, false, Color.FromArgb(255, 83, 227, 136)));
-                WordStyles.Add(new WordStyle("K Word", true, true, @"(K|W|C)", true, true, false, Color.FromArgb(255, 127, 209, 248)));
-                WordStyles.Add(new WordStyle("Other Word", true, true, @"(F|E)", true, true, false, Color.FromArgb(255, 232, 220, 6)));
-                WordStyles.Add(new WordStyle("Tool Word", true, false, @"(S|T|H)", true, true, false, Color.FromArgb(255, 133, 69, 212)));
-                WordStyles.Add(new WordStyle("M Word", true, false, @"(M|#)", true, true, false, Color.FromArgb(255, 186, 87, 142)));
-                WordStyles.Add(new WordStyle("N Word", true, false, @"(N|D)", true, true, false, Color.FromArgb(255, 231, 231, 231)));
-                WordStyles.Add(new WordStyle("Misc1 Word", true, false, @"(L|O)", true, true, false, Color.FromArgb(255, 214, 47, 151)));
-                WordStyles.Add(new WordStyle("Misc2 Word", true, true, @"(R|Q)", true, true, false, Color.FromArgb(255, 193, 129, 32)));
-                WordStyles.Add(new WordStyle("Misc3 Word", true, false, @"P", true, true, false, Color.FromArgb(255, 71, 214, 208)));
+                WordStyles.Add(new WordStyle("Keywords", true, WordStyle.WordValuetype.None, @"(IF|SQRT|ABS|FIX|GT|LT|LE|GE|EQ|GOTO|THEN)", true, true, false, Color.Aqua));
+                WordStyles.Add(new WordStyle("G Word", true, WordStyle.WordValuetype.Float, @"G", true, true, false, Color.FromArgb(255, 237, 139, 37)));
+                WordStyles.Add(new WordStyle("X Word", true, WordStyle.WordValuetype.Float, @"X", true, true, false, Color.FromArgb(255, 195, 0, 0)));
+                WordStyles.Add(new WordStyle("Y Word", true, WordStyle.WordValuetype.Float, @"Y", true, true, false, Color.FromArgb(255, 5, 176, 69)));
+                WordStyles.Add(new WordStyle("Z Word", true, WordStyle.WordValuetype.Float, @"Z", true, true, false, Color.FromArgb(255, 8, 148, 215)));
+                WordStyles.Add(new WordStyle("I Word", true, WordStyle.WordValuetype.Float, @"(I|U|A)", true, true, false, Color.FromArgb(255, 224, 113, 113)));
+                WordStyles.Add(new WordStyle("J Word", true, WordStyle.WordValuetype.Float, @"(J|V|B)", true, true, false, Color.FromArgb(255, 83, 227, 136)));
+                WordStyles.Add(new WordStyle("K Word", true, WordStyle.WordValuetype.Float, @"(K|W|C)", true, true, false, Color.FromArgb(255, 127, 209, 248)));
+                WordStyles.Add(new WordStyle("Other Word", true, WordStyle.WordValuetype.Float, @"(F|E)", true, true, false, Color.FromArgb(255, 232, 220, 6)));
+                WordStyles.Add(new WordStyle("Tool Word", true, WordStyle.WordValuetype.Int, @"(S|T|H)", true, true, false, Color.FromArgb(255, 133, 69, 212)));
+                WordStyles.Add(new WordStyle("M Word", true, WordStyle.WordValuetype.Int, @"(M|#)", true, true, false, Color.FromArgb(255, 186, 87, 142)));
+                WordStyles.Add(new WordStyle("N Word", true, WordStyle.WordValuetype.Int, @"(N|D)", true, true, false, Color.FromArgb(255, 255, 255, 231)));
+                WordStyles.Add(new WordStyle("Misc1 Word", true, WordStyle.WordValuetype.Int, @"(L|O)", true, true, false, Color.FromArgb(255, 214, 47, 151)));
+                WordStyles.Add(new WordStyle("Misc2 Word", true, WordStyle.WordValuetype.Float, @"(R|Q)", true, true, false, Color.FromArgb(255, 193, 129, 32)));
+                WordStyles.Add(new WordStyle("Misc3 Word", true, WordStyle.WordValuetype.Int, @"P", true, true, false, Color.FromArgb(255, 71, 214, 208)));
 
                 WordStyles.Add(new WordStyle("Comment Block", @"\(+.*\)+", Color.MediumSpringGreen));
 

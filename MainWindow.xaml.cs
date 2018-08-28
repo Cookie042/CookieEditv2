@@ -20,13 +20,13 @@ namespace CookieEdit2
     public partial class MainWindow : Window
     {
 
+        public FileManager fileManager = new FileManager();
+
         public SlimDXControl SDXControl;
 
         public static MainWindow instance = null;
 
         private static string windowTitle = "CookieEdit v2.0";
-
-        private string openFilePath;
 
         private SyleManager _syleManager = SyleManager.GetInstance();
 
@@ -54,8 +54,10 @@ namespace CookieEdit2
         //LOAD EVENT
         private void MainWindowControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Width = 1300;
-            Height = 800;
+            Width = 1000;
+            Left = 700;
+            Top = -900;
+            Height = 600;
 
             fctb.Text = @"
 G54
@@ -82,7 +84,7 @@ G28 X0 Y0 Z0
             // initialize sdx control object
         }
 
-        private void InitializeFastColoredTextbox()
+        internal void InitializeFastColoredTextbox()
         {
             //fctb.AddStyle(style);
 
@@ -92,7 +94,7 @@ G28 X0 Y0 Z0
         }
 
         //window Methods
-        private void FctbColorVisibleRangeWithStyles()
+        internal void FctbColorVisibleRangeWithStyles()
         {
             var range = fctb.VisibleRange;
             // convert range to include full lines
@@ -107,7 +109,7 @@ G28 X0 Y0 Z0
             range.SetFoldingMarkers(@"G8(3|4|5|6|7|8|9)|G7(3|4)", @"G80", RegexOptions.IgnoreCase);
         }
 
-        public void FctbClearChangedMarkers()
+        internal void FctbClearChangedMarkers()
         {
             for (int i = 0; i < fctb.LinesCount; i++)
             {
@@ -116,31 +118,16 @@ G28 X0 Y0 Z0
             }
         }
 
-        private void Fctb_VisibleChanged(object sender, EventArgs e) => FctbColorVisibleRangeWithStyles();
-        private void Fctb_Resize(object sender, EventArgs e) => FctbColorVisibleRangeWithStyles();
-        private void Fctb_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e) { } //fctbColorVisibleRangeWithStyles();
+        internal void Fctb_VisibleChanged(object sender, EventArgs e) => FctbColorVisibleRangeWithStyles();
+        internal void Fctb_Resize(object sender, EventArgs e) => FctbColorVisibleRangeWithStyles();
+        internal void Fctb_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e) { } //fctbColorVisibleRangeWithStyles();
 
-        private bool OpenFileDlg()
+
+        internal void UpdateTitle()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true)
+            if (fileManager.OpenFilePath != null && fileManager.OpenFilePath != "")
             {
-                fctb.Text = File.ReadAllText(openFileDialog.FileName);
-                openFilePath = openFileDialog.FileName;
-                FctbColorVisibleRangeWithStyles();
-                FctbClearChangedMarkers();
-                UpdateTitle();
-                return true;
-            }
-
-            return false;
-        }
-
-        private void UpdateTitle()
-        {
-            if (openFilePath != null && openFilePath != "")
-            {
-                Title = windowTitle + " - " + openFilePath;
+                Title = windowTitle + " - " + fileManager.OpenFilePath;
 
             }
             else
@@ -164,13 +151,14 @@ G28 X0 Y0 Z0
 
         private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("SaveAs!");
+            //MessageBox.Show("SaveAs!");
+            fileManager.Save(this, true);
             //SaveAs();//Implementation of saveAs
         }
 
         private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            MessageBox.Show("SaveAs!");
+            fileManager.Save(this, false);
             //SaveAs();//Implementation of saveAs
         }
 
@@ -178,7 +166,7 @@ G28 X0 Y0 Z0
         {
             //MessageBox.Show("New File!");
             fctb.Clear();
-            openFilePath = "";
+            fileManager.OpenFilePath = "";
             UpdateTitle();
         }
 
@@ -238,12 +226,12 @@ G28 X0 Y0 Z0
 
         private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            OpenFileDlg();
+            fileManager.Open(this);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDlg();
+            fileManager.Open(this);
         }
 
         private void Toggle3DToolbarButton_Click(object sender, RoutedEventArgs e)

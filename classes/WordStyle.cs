@@ -9,10 +9,15 @@ namespace CookieEdit2
     public class WordStyle
     {
 
+        public enum WordValuetype
+        {
+            Float, Int, None
+        }
+
         //regex for float
-        private const string F = @"-?(\d+\.?\d*|\d*\.?\d+)";
+        private const string F = @"\s*-?\d*\.?\d*";
         //regex for float
-        private const string I = @"\d+";
+        private const string I = @"\s*(\d*|\[)+";
 
         private const string NoComm = @"(?<!\(.*)";
 
@@ -61,7 +66,7 @@ namespace CookieEdit2
 
         public WordStyle() { }
 
-        public WordStyle(string name, bool notInComment, bool decimalValue, string letters, bool ignoreCase, bool isBold, bool isItalic, Color color)
+        public WordStyle(string name, bool notInComment, WordValuetype decimalValue, string letters, bool ignoreCase, bool isBold, bool isItalic, Color color)
         {
             _red = color.R;
             _green = color.G;
@@ -73,12 +78,28 @@ namespace CookieEdit2
 
             _name = name;
 
-            _regex = (notInComment ? NoComm : "" ) + letters + (decimalValue ? F : I);
+            string v = "";
+            switch (decimalValue)
+            {
+                case WordValuetype.Float:
+                    v = F;
+                    break;
+                case WordValuetype.Int:
+                    v = I;
+                    break;
+                case WordValuetype.None:
+                    v = "";
+                    break;
+                default:
+                    break;
+            }
+
+            _regex = (notInComment ? NoComm : "" ) + letters + @"((?=\s?\[)|" + v + @")";
 
             _style = GetStyle();
         }
 
-        public WordStyle(string name, string regex, Color foreColor) : this(name, false, false, "", true, false, true, foreColor)
+        public WordStyle(string name, string regex, Color foreColor) : this(name, false, WordValuetype.None, "", true, false, true, foreColor)
         {
             _regex = regex;
         }
