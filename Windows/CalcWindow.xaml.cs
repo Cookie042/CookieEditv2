@@ -18,7 +18,7 @@ namespace CookieEdit2
             InitializeComponent();
         }
 
-        private void outputFunctions()
+        private void OutputFunctions()
         {
             foreach (var item in mathEval.Functions)
             {
@@ -44,9 +44,7 @@ namespace CookieEdit2
             MatchCollection matches = regex.Matches(tb_Input.Text);
 
             foreach (Match match in matches)
-            {
                 _input = _input.Replace(match.Value, MainWindow.instance.macroVariableManager.variables[int.Parse(match.Groups[1].Value)].value.ToString());
-            }
 
             try
             {
@@ -212,7 +210,7 @@ namespace CookieEdit2
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            outputFunctions();
+            OutputFunctions();
         }
 
         private void btn_clr_Click(object sender, RoutedEventArgs e)
