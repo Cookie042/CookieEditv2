@@ -2,6 +2,7 @@
 using LoreSoft.MathExpressions;
 using System;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace CookieEdit2
 {
@@ -30,16 +31,25 @@ namespace CookieEdit2
             if (mathEval == null || tb_Input == null)
                 return;
 
+            string _input = tb_Input.Text;
+
             if (tb_Input.Text.Trim() == "")
             {
                 tb_Output.Text = "0";
                 statusBar.Text = "";
                 return;
             }
-            
+
+            Regex regex = new Regex(@"#(\d{1,3})", RegexOptions.IgnoreCase);
+            MatchCollection matches = regex.Matches(tb_Input.Text);
+
+            foreach (Match match in matches)
+            {
+                _input = _input.Replace(match.Value, MainWindow.instance.macroVariableManager.variables[int.Parse(match.Groups[1].Value)].value.ToString());
+            }
+
             try
             {
-                string _input = tb_Input.Text;
 
                 double evalResult = mathEval.Evaluate(_input);
 

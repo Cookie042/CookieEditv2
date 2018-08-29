@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using FastColoredTextBoxNS;
 using System.IO;
 using System.Windows;
+using Newtonsoft.Json;
 
 namespace CookieEdit2
 {
@@ -62,5 +63,6 @@ namespace CookieEdit2
             
             return false;
         }
+        
     }
 }

@@ -46,8 +46,7 @@ namespace CookieEdit2
         public MainWindow()
         {
             InitializeComponent();
-
-
+            
             instance = this;
 
             SDXControl = new SlimDXControl();
@@ -92,6 +91,12 @@ namespace CookieEdit2
             Left = 700;
             Top = IsHomePc ? 200 : -900;
             Height = 600;
+
+
+            CalcWindow calc = new CalcWindow();
+            calc.Top = Top;
+            calc.Left = Left;
+            calc.Show();
 
             FctbDefaultText();
             FctbClearChangedMarkers();
