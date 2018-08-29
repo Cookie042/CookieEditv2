@@ -6,11 +6,13 @@ using SlimDX;
 using FastColoredTextBoxNS;
 using System.Text.RegularExpressions;
 using Flaxen.SlimDXControlLib;
-using Microsoft.Win32;
 using System.Windows.Input;
-using System.Windows.Controls;
 using System.Windows.Forms.Integration;
 using System.Diagnostics;
+using System.Windows.Forms;
+using Clipboard = System.Windows.Clipboard;
+using ContextMenu = System.Windows.Controls.ContextMenu;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace CookieEdit2
 {
@@ -19,7 +21,10 @@ namespace CookieEdit2
     /// </summary>
     public partial class MainWindow : Window
     {
+        //private variables
+        private bool unsavedChanges = false;
 
+        //Public
         public FileManager fileManager = new FileManager();
 
         public SlimDXControl SDXControl;
@@ -33,31 +38,72 @@ namespace CookieEdit2
         private bool Show3dView = true;
         private GridLength GraphicsGridWidth = new GridLength();
 
+        public bool IsHomePc => Environment.MachineName == "MONSTERCOOKE";
+
         public MacroVariableManager macroVariableManager = new MacroVariableManager();
 
-        //CTOR
+        //Constructor
         public MainWindow()
         {
             InitializeComponent();
 
+
             instance = this;
 
             SDXControl = new SlimDXControl();
-            SDXControl.KeyDown += x_contentControl1_KeyDown;
+            SDXControl.KeyDown += SdxCtrl_KeyDown;
 
             Flaxen.SlimDXControlLib.RenderEngine re1 = new RenderEngine(true, SDXControl);
             SDXControl.RegisterRenderer(re1);
 
             dp.Children.Add(SDXControl);
+
+            // link to events
+            fileManager.FileSavedEvent += FileManagerOnFileChangedEvent;
+            fileManager.FileOpenedEvent += FileManagerOnFileChangedEvent;
+
+            fctb.KeyPressed += Fctb_KeyPressed;
+            fctb.VisibleRangeChanged += Fctb_VisibleRangeChanged;
+
+        }
+
+        internal void FileManagerOnFileChangedEvent(string s)
+        {
+            FctbClearChangedMarkers();
+            SetTitleFilename(s, false);
+            unsavedChanges = false;
+        }
+
+        private void SetTitleFilename(string filepath, bool astrisk)
+        {
+            if (!string.IsNullOrEmpty(filepath))
+                Title = windowTitle + " - " + filepath + (astrisk ? "*" : "");
+            else
+            {
+                Title = windowTitle;
+            }
         }
 
         //LOAD EVENT
         private void MainWindowControl_Loaded(object sender, RoutedEventArgs e)
         {
+            // window startPosition & size
             Width = 1000;
             Left = 700;
-            Top = -900;
+            Top = IsHomePc ? 200 : -900;
             Height = 600;
+
+            FctbDefaultText();
+            FctbClearChangedMarkers();
+            fctb.ClearUndo();
+
+            FctbColorVisibleRangeWithStyles();
+
+            // initialize sdx control object
+        }
+
+        private void FctbDefaultText()
+        {
 
             fctb.Text = @"
 G54
@@ -76,19 +122,13 @@ G1 Y0
 G0 Z0
 G28 X0 Y0 Z0
 ";
-            FctbClearChangedMarkers();
-            fctb.ClearUndo();
-
-            FctbColorVisibleRangeWithStyles();
-
-            // initialize sdx control object
         }
 
         internal void InitializeFastColoredTextbox()
         {
             //fctb.AddStyle(style);
 
-            fctb.Zoom = 120;
+            fctb.Zoom = 150;
 
             FctbColorVisibleRangeWithStyles();
         }
@@ -117,43 +157,58 @@ G28 X0 Y0 Z0
                 fctb.Invalidate();
             }
         }
+        
+        
+        //FCTB Events
 
-        internal void Fctb_VisibleChanged(object sender, EventArgs e) => FctbColorVisibleRangeWithStyles();
         internal void Fctb_Resize(object sender, EventArgs e) => FctbColorVisibleRangeWithStyles();
-        internal void Fctb_Scroll(object sender, System.Windows.Forms.ScrollEventArgs e) { } //fctbColorVisibleRangeWithStyles();
-
-
-        internal void UpdateTitle()
+        internal void Fctb_VisibleRangeChanged(object sender, EventArgs eventArgs) => FctbColorVisibleRangeWithStyles();
+        internal void Fctb_KeyPressed(object sender, KeyPressEventArgs keyPressEventArgs)
         {
-            if (fileManager.OpenFilePath != null && fileManager.OpenFilePath != "")
+            if (!unsavedChanges)
             {
-                Title = windowTitle + " - " + fileManager.OpenFilePath;
-
-            }
-            else
-            {
-                Title = windowTitle;
+                SetTitleFilename(fileManager.OpenFilePath, true);
+                unsavedChanges = true;
             }
         }
 
-        private void OpenMacroGUIMenuItem_Click(object sender, RoutedEventArgs e)
+        //--------CAN EXEC---------
+        internal void CanExecute_True(object sender, CanExecuteRoutedEventArgs e)
         {
-            MacroWindow.Spawn(this);
+            e.CanExecute = true;
+        }
+        internal void CanExecute_IsTextSelected(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = fctb.SelectedText.Length > 0;
         }
 
-        private void CalcToolbarButton_Click(object sender, RoutedEventArgs e)
+        //Mouse Events
+        internal void fctb_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
         {
-            CalcWindow calc = new CalcWindow();
-            calc.Owner = this;
-            calc.Show();
+            //ShowContextMenu
+            if (e.Button == MouseButtons.Right)
+            {
+                ContextMenu cm = this.FindResource("cmButton") as ContextMenu;
+                cm.PlacementTarget = sender as WindowsFormsHost;
+                cm.IsOpen = true;
+            }
+
+            if (e.Button == MouseButtons.Middle)
+            {
+            }
+        }
+
+        //KeyDown Events
+        internal void SdxCtrl_KeyDown(object sender, KeyEventArgs e)
+        {
+            Debug.WriteLine(e.Key.ToString());
         }
 
 
+        //Command Events
         private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            //MessageBox.Show("SaveAs!");
             fileManager.Save(this, true);
-            //SaveAs();//Implementation of saveAs
         }
 
         private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -167,84 +222,59 @@ G28 X0 Y0 Z0
             //MessageBox.Show("New File!");
             fctb.Clear();
             fileManager.OpenFilePath = "";
-            UpdateTitle();
+            SetTitleFilename("", false);
         }
 
+        internal void PasteCommand_Executed(object sender, ExecutedRoutedEventArgs e) => fctb.SelectedText = Clipboard.GetText();
 
-        //-------------FCTB EVENTS--------------
+        internal void CopyCommand_Executed(object sender, ExecutedRoutedEventArgs e) => Clipboard.SetText(fctb.SelectedText);
 
-        private void fctb_TextChanged(object sender, FastColoredTextBoxNS.TextChangedEventArgs e)
-        {
-            FctbColorVisibleRangeWithStyles();
-        }
-
-        private void fctb_MouseClick(object sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            //ShowContextMenu
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-                ContextMenu cm = this.FindResource("cmButton") as ContextMenu;
-                cm.PlacementTarget = sender as WindowsFormsHost;
-                cm.IsOpen = true;
-            }
-
-            if (e.Button == System.Windows.Forms.MouseButtons.Middle)
-            {
-            }
-        }
-
-        //--------CAN EXEC---------
-        private void CanExecute_True(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = true;
-        }
-        private void CanExecute_IsTextSelected(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = fctb.SelectedText.Length > 0;
-        }
-
-        //---------CUT COPY PASTE COMMANDS----------
-        private void PasteCommand_Executed(object sender, ExecutedRoutedEventArgs e) => fctb.SelectedText = Clipboard.GetText();
-        private void CopyCommand_Executed(object sender, ExecutedRoutedEventArgs e) => Clipboard.SetText(fctb.SelectedText);
-        private void CutCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        internal void CutCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             Clipboard.SetText(fctb.SelectedText);
             fctb.SelectedText = "";
         }
 
-        private void expToolbarButton_Click(object sender, RoutedEventArgs e)
-        {
-            Windows.SerialIO gui = new Windows.SerialIO();
-            gui.Owner = this;
-            gui.Show();
-        }
-
-        private void x_contentControl1_KeyDown(object sender, KeyEventArgs e)
-        {
-            Debug.WriteLine(e.Key.ToString());
-        }
-
-        private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        internal void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             fileManager.Open(this);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        internal void RedoCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            fileManager.Open(this);
+            fctb.Redo();
         }
 
-        private void Toggle3DToolbarButton_Click(object sender, RoutedEventArgs e)
+        internal void UndoCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            fctb.Undo();
+        }
+
+        internal void FindCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            fctb.findForm.Show();
+        }
+
+
+        //Button Click Events
+        private void OpenMacroGUIMenuItem_Click(object sender, RoutedEventArgs e) => MacroWindow.Spawn(this);
+
+        private void CalcToolbarButton_Click(object sender, RoutedEventArgs e)
+        {
+            CalcWindow calc = new CalcWindow();
+            calc.Owner = this;
+            calc.Show();
+        }
+
+        internal void Toggle3DToolbarButton_Click(object sender, RoutedEventArgs e)
         {
 
             if (!Show3dView)
             {
-
                 grid_right.Width = GraphicsGridWidth;
 
                 SDXControl.IsEnabled = true;
                 Show3dView = true;
-
             }
             else
             {
@@ -257,30 +287,21 @@ G28 X0 Y0 Z0
 
         }
 
-
-        private void RedoCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        internal void OpenButton_Click(object sender, RoutedEventArgs e)
         {
-            fctb.Redo();
+            fileManager.Open(this);
         }
 
-        private void UndoCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        internal void SaveButtonClicked(object sender, RoutedEventArgs e)
         {
-            fctb.Undo();
+            fileManager.Save(this, false);
         }
 
-        private void FindReplaceCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        internal void ExpToolbarButton_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void FormatCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-
-        }
-
-        private void FindCommand_Executed(object sender, ExecutedRoutedEventArgs e)
-        {
-            fctb.findForm.Show();
+            Windows.SerialIO gui = new Windows.SerialIO();
+            gui.Owner = this;
+            gui.Show();
         }
     }
 }

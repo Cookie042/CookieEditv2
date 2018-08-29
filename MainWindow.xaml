@@ -104,10 +104,10 @@
             <DockPanel>
                 <DockPanel DockPanel.Dock="Top">
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
-                        <Button Style="{StaticResource toolbarButtonStyle}" BorderBrush="Black" Click="Button_Click">
+                        <Button Style="{StaticResource toolbarButtonStyle}" BorderBrush="Black" Click="OpenButton_Click">
                             <Image  Width="15" Height="15" Source="/resources/icons/24x24/folder.png"/>
                         </Button>
-                        <Button Style="{StaticResource toolbarButtonStyle}" BorderBrush="Black">
+                        <Button x:Name="SaveButton" Style="{StaticResource toolbarButtonStyle}" BorderBrush="Black" Click="SaveButtonClicked">
                             <Image  Width="15" Height="15" Source="/resources/icons/24x24/save.png"/>
                         </Button>
                         <Button Style="{StaticResource toolbarButtonStyle}" BorderBrush="Black">
@@ -120,7 +120,7 @@
 
                             <Image  Width="15" Height="15" Source="/resources/icons/24x24/Calculator.png"/>
                         </Button>
-                        <Button Style="{StaticResource toolbarButtonStyle}" Click="expToolbarButton_Click">
+                        <Button Style="{StaticResource toolbarButtonStyle}" Click="ExpToolbarButton_Click">
                             <Image  Width="15" Height="15" Source="/resources/icons/24x24/Alien.png"/>
                         </Button>
 
@@ -166,9 +166,9 @@
                         Alt+Shift+Down=GoDown_ColumnSelectionMode" BorderStyle="None" UseWaitCursor="False" 
                         Text="G1 M1 S0 N0 X0.0 Y0.0 Z0.0 I0.0 J0.0 K0.0 (comment)" 
                         AutoSize="True"
-                        AutoSizeMode="GrowAndShrink" BackColor="Black" ForeColor="White" VisibleChanged="Fctb_VisibleChanged" Resize="Fctb_Resize" 
+                        AutoSizeMode="GrowAndShrink" BackColor="Black" ForeColor="White" Resize="Fctb_Resize" 
                         BookmarkColor="#b90000" CaretColor="#92d0ff" ChangedLineColor="#55ff0000" IndentBackColor="#0f141f" ServiceLinesColor="Black" PaddingBackColor="#223366"
-                        SelectionColor="#ffffff" LineNumberColor="#d7e0e5" Scroll="Fctb_Scroll" MouseClick="fctb_MouseClick" TextChangedDelayed="fctb_TextChanged" />
+                        SelectionColor="#ffffff" LineNumberColor="#d7e0e5" />
                 </WindowsFormsHost>
             </DockPanel>
 
