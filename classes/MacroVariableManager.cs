@@ -13,9 +13,10 @@ namespace CookieEdit2
 
         public MacroVariableManager()
         {
+            var rand = new Random();
             for (int i = 0; i < 500; i++)
             {
-                variables.Add(i, new MacroVariable(i, getArgLetter(i), 0));
+                variables.Add(i, new MacroVariable(i, getArgLetter(i), (float)rand.NextDouble() * 20));
             }
         }
         public enum ArgLetter
