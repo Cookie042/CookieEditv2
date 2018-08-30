@@ -40,6 +40,9 @@ namespace CookieEdit2
                 return;
             }
 
+            _input = _input.Replace('[', '(');
+            _input = _input.Replace(']', ')');
+
             Regex regex = new Regex(@"#(\d{1,3})", RegexOptions.IgnoreCase);
             MatchCollection matches = regex.Matches(tb_Input.Text);
 

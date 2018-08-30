@@ -41,6 +41,7 @@ namespace CookieEdit2
         public bool IsHomePc => Environment.MachineName == "MONSTERCOOKE";
 
         public MacroVariableManager macroVariableManager = new MacroVariableManager();
+        public GCodeCommandReference commandReference = new GCodeCommandReference();
 
         //Constructor
         public MainWindow()
@@ -63,6 +64,44 @@ namespace CookieEdit2
 
             fctb.KeyPressed += Fctb_KeyPressed;
             fctb.VisibleRangeChanged += Fctb_VisibleRangeChanged;
+            fctb.ToolTipNeeded += Fctb_ToolTipNeeded;
+            fctb.ToolTipDelay = 1;
+
+        }
+
+        private void Fctb_ToolTipNeeded(object sender, ToolTipNeededEventArgs e)
+        {
+
+            var lineText = fctb.GetLine(e.Place.iLine).Text.Insert(e.Place.iChar, "||");
+            var match = Regex.Match(lineText, @"(?<1>G|#)(?<2>\d*(?:\|{2})\d*)|(?:\|{2})(?<1>G|#)(?<2>\d*)");
+
+            var word = match.Groups[2].Value.Replace("||", "");
+
+            if (int.TryParse(word, out int result))
+            {
+                e.ToolTipText = match.Groups[1] + word;
+                if (match.Groups[1].Value != "#")
+                {
+                    if (commandReference.codeDict.ContainsKey(match.Groups[1] + word))
+                    {
+                        e.ToolTipText = commandReference.codeDict[match.Groups[1] + word].information;
+                    }
+
+
+                } else if (macroVariableManager.variables.ContainsKey(result))
+                {
+                    var name = macroVariableManager.variables[result].name;
+                    if (!string.IsNullOrEmpty(name))
+                        name = " (" + name + ")";
+                    else
+                        name = "";
+                    e.ToolTipText = "#" + word + name + " = " + macroVariableManager.variables[result].value;
+                }
+            }
+        }
+
+        private void Fctb_Hover(object sender, EventArgs e)
+        {
 
         }
 
@@ -127,6 +166,9 @@ G1 Y0
 G0 Z0
 G28 X0 Y0 Z0
 ";
+
+
+            fctb.AddHint(new Range(MainWindow.instance.fctb, 2, 0, 5, 2), "Test");
         }
 
         internal void InitializeFastColoredTextbox()
