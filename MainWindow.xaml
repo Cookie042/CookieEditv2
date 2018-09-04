@@ -179,8 +179,8 @@
 
             <DockPanel Grid.Column="1" Name="dp">
                 <StackPanel x:Name="graphicsToolbar" Orientation="Horizontal" FlowDirection="LeftToRight" DockPanel.Dock="Top" Margin="1,0,0,0" VerticalAlignment="Top">
-                    <Button Style="{StaticResource toolbarButtonStyle}" />
-                    <Button Style="{StaticResource toolbarButtonStyle}" />
+                    <Button Style="{StaticResource toolbarButtonStyle}" Click="Button_Click" />
+                    <Button Style="{StaticResource toolbarButtonStyle}" Click="Button_Click_1" />
                     <Button Style="{StaticResource toolbarButtonStyle}" />
                     <Button Style="{StaticResource toolbarButtonStyle}" />
                 </StackPanel>

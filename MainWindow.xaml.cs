@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows;
 using SlimDX;
@@ -10,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Forms.Integration;
 using System.Diagnostics;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 using Clipboard = System.Windows.Clipboard;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
@@ -349,6 +351,111 @@ G28 X0 Y0 Z0
             Windows.SerialIO gui = new Windows.SerialIO();
             gui.Owner = this;
             gui.Show();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            Dictionary<string, Dictionary<string, List<string>>> languages = new Dictionary<string, Dictionary<string, List<string>>>();
+
+            languages.Add("english", new Dictionary< string, List<string>>());
+            languages.Add("spanish", new Dictionary< string, List<string>>());
+            languages.Add("french", new Dictionary< string, List<string>>());
+
+            foreach (var language in languages)
+            {
+                language.Value.Add("greetings", new List<string>());
+                language.Value.Add("responses", new List<string>());
+            }
+
+            languages["english"]["greetings"].Add("Hello");
+            languages["english"]["greetings"].Add("Hello2");
+            languages["english"]["greetings"].Add("Hello3");
+            languages["english"]["responses"].Add("WHAT?");
+            languages["english"]["responses"].Add("greetings old <gender2>");
+            languages["english"]["responses"].Add("Sup?");
+
+            // spanish
+            languages["spanish"]["greetings"].Add("Hola");
+            languages["spanish"]["greetings"].Add("Hola2");
+            languages["spanish"]["greetings"].Add("Hola3");
+
+            // greetings
+            languages["french"]["greetings"].Add("Bonjour");
+            languages["french"]["greetings"].Add("Bonjour2");
+            languages["french"]["greetings"].Add("Bonjour3");
+
+            foreach (KeyValuePair<string, Dictionary<string, List<string>>> language in languages)
+            {
+                var jsonString = JsonConvert.SerializeObject(language.Value, Formatting.Indented);
+
+                File.WriteAllText(Environment.CurrentDirectory + "//Languages//" + language.Key + ".json", jsonString);
+            }
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+            Dictionary<string, Dictionary<string, List<string>>> dialogData = new Dictionary<string, Dictionary<string, List<string>>>();
+
+            var dir = new DirectoryInfo(System.Environment.CurrentDirectory + "//Languages//");
+
+            foreach (var fileInfo in dir.GetFiles("*.json", SearchOption.TopDirectoryOnly))
+            {
+                var languageName = fileInfo.Name.Substring(0, fileInfo.Name.Length - 5);
+
+                var jsonText = File.ReadAllText(fileInfo.FullName);
+
+
+                dialogData.Add(languageName, JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(jsonText));
+            }
+
+            var s = "";
+            //looping all the language data
+            foreach (var lang in dialogData)
+            {
+                Console.WriteLine(lang.Key);
+                s += lang.Key + "\n";
+                foreach (var phraseGroup in lang.Value)
+                {
+                    s += "  " + phraseGroup.Key + "\n";
+                    Console.WriteLine( "  " + phraseGroup.Key);
+                    if (phraseGroup.Value == null || phraseGroup.Value.Count == 0)
+                    {
+
+                        Console.WriteLine("    (none)");
+                    }
+                    foreach (var phrase in phraseGroup.Value)
+                    {
+                        Console.WriteLine("    " + phrase);
+                    }
+                }
+            }
+
+            //english
+            //  greetings
+            //      Hello
+            //      Hello2
+            //      Hello3
+            //  responses
+            //      WHAT?
+            //      greetings old<gender2>
+            //      Sup?
+            //french
+            //  greetings
+            //      Bonjour
+            //      Bonjour2
+            //      Bonjour3
+            //  responses
+            //      (none)
+            //spanish
+            //  greetings
+            //      Hola
+            //      Hola2
+            //      Hola3
+            //  responses
+            //      (none)
         }
     }
 }
