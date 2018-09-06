@@ -101,6 +101,7 @@
     <Compile Include="experimentalUI.xaml.cs">
       <DependentUpon>experimentalUI.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FillRectangle.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Windows\Calculator.xaml.cs">
       <DependentUpon>Calculator.xaml</DependentUpon>
@@ -119,6 +120,9 @@
     </Compile>
     <Compile Include="Windows\SerialIOEditWindow.xaml.cs">
       <DependentUpon>SerialIOEditWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\TodoListWindow.xaml.cs">
+      <DependentUpon>TodoListWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="experimentalUI.xaml">
       <SubType>Designer</SubType>
@@ -154,6 +158,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\SerialIOEditWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\TodoListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
