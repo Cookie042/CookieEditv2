@@ -10,7 +10,8 @@
     xmlns:hx="http://helix-toolkit.org/wpf/SharpDX"
     x:Name="mainWindowControl"
     mc:Ignorable="d"
-    Title="CookieEdit v2.0" Height="423.5" Width="651.833" BorderBrush="Black" Loaded="MainWindowControl_Loaded" Foreground="White" OpacityMask="Black" Icon="resources\icons\cookie.png" Background="#FF2E2E2E">
+    Title="CookieEdit v2.0" Height="800" Width="1500
+    " BorderBrush="Black" Loaded="MainWindowControl_Loaded" Foreground="White" OpacityMask="Black" Icon="resources\icons\cookie.png" Background="#FF2E2E2E">
     <Window.Resources>
 
 
@@ -100,7 +101,7 @@
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="grid_left" Width="1*"/>
-                <ColumnDefinition x:Name="grid_right"  Width="1*"/>
+                <ColumnDefinition x:Name="grid_right"  Width="2*"/>
             </Grid.ColumnDefinitions>
 
             <DockPanel>
@@ -202,16 +203,19 @@
                     <hx:AmbientLight3D Color="White"/>
                     <hx:ScreenQuadModel3D Texture="{Binding BackgroundTexture}" />
 
+                    <hx:MeshGeometryModel3D Geometry="{Binding BoxMesh}" Material="{Binding MeshMaterial}" Transform="{Binding BoxTransform}"/>
+
                     <hx:LineGeometryModel3D x:Name="LineGeo" 
                         Geometry="{Binding TableGrid}" 
                         IsHitTestVisible="False"
                         Transform="{Binding TableXform}"
-                        Thickness=".5" Color="#FF747474"/>
+                        Thickness=".5" Color="#FF272727"/>
                     <hx:LineGeometryModel3D 
                         Geometry="{Binding TableGrid2}" 
                         IsHitTestVisible="False"
                         Transform="{Binding TableXform2}"
-                        Thickness="1.5" Color="#FF686868"/>
+                        Thickness="1.5" Color="#FF2E2E2E"/>
+
 
 
                 </hx:Viewport3DX>

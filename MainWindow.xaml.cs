@@ -124,10 +124,10 @@ namespace CookieEdit2
         private void MainWindowControl_Loaded(object sender, RoutedEventArgs e)
         {
             // window startPosition & size
-            Width = 1000;
-            Left = 700;
-            Top = IsHomePc ? 200 : -900;
-            Height = 600;
+            //Width = 1000;
+            Left = 300;
+            Top = IsHomePc ? 200 : -1100;
+            //Height = 600;
 
 
             //CalcWindow calc = new CalcWindow();

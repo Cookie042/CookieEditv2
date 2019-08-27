@@ -31,6 +31,10 @@ namespace CookieEdit2
         public Color TableGridColor2 { get; private set; }
         public Transform3D TableXform2 { get; private set; }
 
+        public Material MeshMaterial { get; private set; }
+        public MeshGeometry3D BoxMesh { get; set; }
+        public Transform3D BoxTransform { get; private set; }
+
         public Stream BackgroundTexture { get; }
 
         public DxViewModel()
@@ -39,11 +43,19 @@ namespace CookieEdit2
 
             TableGrid = LineBuilder.GenerateGrid(UpDirVector,-24,24,-12,12);
             TableGridColor = Color.FromArgb(85, 229, 229, 229);
-            TableXform = new Media3D.TranslateTransform3D(0, 0, -2);
+            TableXform = new Media3D.TranslateTransform3D(0, 0, 0);
 
             TableGrid2 = LineBuilder.GenerateGrid(UpDirVector,-2,2,-1,1);
             TableGridColor2 = Color.FromArgb(85, 65, 65, 65);
-            TableXform2 = new Media3D.TranslateTransform3D(0, 0, -2).PrependTransform(new Media3D.ScaleTransform3D(12,12,12));
+            TableXform2 = new Media3D.TranslateTransform3D(0, 0, 0).PrependTransform(new Media3D.ScaleTransform3D(12,12,12));
+
+            MeshBuilder mb = new MeshBuilder();
+            mb.AddBox(Vector3.Zero, 48,24,1);
+            BoxMesh = mb.ToMesh();
+
+            BoxTransform = new Media3D.TranslateTransform3D(0, 0, -.51);
+
+            MeshMaterial = PhongMaterials.Gray;
 
             Camera = new PerspectiveCamera()
             {
@@ -55,7 +67,7 @@ namespace CookieEdit2
 
             BackgroundTexture =
                 BitmapExtensions.CreateLinearGradientBitmapStream(EffectsManager, 128, 128, Direct2DImageFormat.Bmp,
-                    new Vector2(0, 0), new Vector2(0, 128), new SharpDX.Direct2D1.GradientStop[]
+                    new Vector2(0, 0), new Vector2(64, 128), new SharpDX.Direct2D1.GradientStop[]
                     {
                         new SharpDX.Direct2D1.GradientStop(){ Color = Color.FromRgb(19, 19, 19).ToColor4(), Position = 0f },
                         new SharpDX.Direct2D1.GradientStop(){ Color = Color.FromRgb(47, 47, 47).ToColor4(), Position = 1f }
