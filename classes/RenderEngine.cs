@@ -41,7 +41,7 @@ namespace CookieEdit2
 
         private const double pi2 = Math.PI * 2;
 
-        private readonly float orbitDia = 10;
+        private readonly float orbitDia = 20;
 
         private SlimDXControl parentControl;
 
@@ -95,7 +95,7 @@ namespace CookieEdit2
 
             //input
 
-            t += deltaTime / 10f;
+            t += deltaTime / 5f;
 
             if (t > 1f)
                 t = 0f;

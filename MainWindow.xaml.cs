@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Forms.Integration;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Windows.Media;
+using CookieEdit2.Windows;
 using Newtonsoft.Json;
 using Clipboard = System.Windows.Clipboard;
 using ContextMenu = System.Windows.Controls.ContextMenu;
@@ -28,8 +30,7 @@ namespace CookieEdit2
 
         //Public
         public FileManager fileManager = new FileManager();
-
-        public SlimDXControl SDXControl;
+        
 
         public static MainWindow instance = null;
 
@@ -44,22 +45,14 @@ namespace CookieEdit2
 
         public MacroVariableManager macroVariableManager = new MacroVariableManager();
         public GCodeCommandReference commandReference = new GCodeCommandReference();
-
+        
         //Constructor
         public MainWindow()
         {
             InitializeComponent();
             
             instance = this;
-
-            SDXControl = new SlimDXControl();
-            SDXControl.KeyDown += SdxCtrl_KeyDown;
-
-            Flaxen.SlimDXControlLib.RenderEngine re1 = new RenderEngine(true, SDXControl);
-            SDXControl.RegisterRenderer(re1);
-
-            dp.Children.Add(SDXControl);
-
+            
             // link to events
             fileManager.FileSavedEvent += FileManagerOnFileChangedEvent;
             fileManager.FileOpenedEvent += FileManagerOnFileChangedEvent;
@@ -68,6 +61,9 @@ namespace CookieEdit2
             fctb.VisibleRangeChanged += Fctb_VisibleRangeChanged;
             fctb.ToolTipNeeded += Fctb_ToolTipNeeded;
             fctb.ToolTipDelay = 1;
+            
+            //var win = new HelixTestWindow(DXContext);
+            //win.Show();
 
         }
 
@@ -134,10 +130,10 @@ namespace CookieEdit2
             Height = 600;
 
 
-            CalcWindow calc = new CalcWindow();
-            calc.Top = Top;
-            calc.Left = Left;
-            calc.Show();
+            //CalcWindow calc = new CalcWindow();
+            //calc.Top = Top;
+            //calc.Left = Left;
+            //calc.Show();
 
             FctbDefaultText();
             FctbClearChangedMarkers();
@@ -170,7 +166,7 @@ G28 X0 Y0 Z0
 ";
 
 
-            fctb.AddHint(new Range(MainWindow.instance.fctb, 2, 0, 5, 2), "Test");
+            //fctb.AddHint(new Range(MainWindow.instance.fctb, 2, 0, 5, 2), "Test");
         }
 
         internal void InitializeFastColoredTextbox()
@@ -322,12 +318,12 @@ G28 X0 Y0 Z0
             {
                 grid_right.Width = GraphicsGridWidth;
 
-                SDXControl.IsEnabled = true;
+                //SDXControl.IsEnabled = true;
                 Show3dView = true;
             }
             else
             {
-                SDXControl.IsEnabled = false;
+                //SDXControl.IsEnabled = false;
                 GraphicsGridWidth = grid_right.Width;
                 var w = new GridLength(1, GridUnitType.Pixel);
                 grid_right.Width = w;
@@ -355,107 +351,7 @@ G28 X0 Y0 Z0
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
-            Dictionary<string, Dictionary<string, List<string>>> languages = new Dictionary<string, Dictionary<string, List<string>>>();
-
-            languages.Add("english", new Dictionary< string, List<string>>());
-            languages.Add("spanish", new Dictionary< string, List<string>>());
-            languages.Add("french", new Dictionary< string, List<string>>());
-
-            foreach (var language in languages)
-            {
-                language.Value.Add("greetings", new List<string>());
-                language.Value.Add("responses", new List<string>());
-            }
-
-            languages["english"]["greetings"].Add("Hello");
-            languages["english"]["greetings"].Add("Hello2");
-            languages["english"]["greetings"].Add("Hello3");
-            languages["english"]["responses"].Add("WHAT?");
-            languages["english"]["responses"].Add("greetings old <gender2>");
-            languages["english"]["responses"].Add("Sup?");
-
-            // spanish
-            languages["spanish"]["greetings"].Add("Hola");
-            languages["spanish"]["greetings"].Add("Hola2");
-            languages["spanish"]["greetings"].Add("Hola3");
-
-            // greetings
-            languages["french"]["greetings"].Add("Bonjour");
-            languages["french"]["greetings"].Add("Bonjour2");
-            languages["french"]["greetings"].Add("Bonjour3");
-
-            foreach (KeyValuePair<string, Dictionary<string, List<string>>> language in languages)
-            {
-                var jsonString = JsonConvert.SerializeObject(language.Value, Formatting.Indented);
-
-                File.WriteAllText(Environment.CurrentDirectory + "//Languages//" + language.Key + ".json", jsonString);
-            }
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-            Dictionary<string, Dictionary<string, List<string>>> dialogData = new Dictionary<string, Dictionary<string, List<string>>>();
-
-            var dir = new DirectoryInfo(System.Environment.CurrentDirectory + "//Languages//");
-
-            foreach (var fileInfo in dir.GetFiles("*.json", SearchOption.TopDirectoryOnly))
-            {
-                var languageName = fileInfo.Name.Substring(0, fileInfo.Name.Length - 5);
-
-                var jsonText = File.ReadAllText(fileInfo.FullName);
-
-
-                dialogData.Add(languageName, JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(jsonText));
-            }
-
-            var s = "";
-            //looping all the language data
-            foreach (var lang in dialogData)
-            {
-                Console.WriteLine(lang.Key);
-                s += lang.Key + "\n";
-                foreach (var phraseGroup in lang.Value)
-                {
-                    s += "  " + phraseGroup.Key + "\n";
-                    Console.WriteLine( "  " + phraseGroup.Key);
-                    if (phraseGroup.Value == null || phraseGroup.Value.Count == 0)
-                    {
-
-                        Console.WriteLine("    (none)");
-                    }
-                    foreach (var phrase in phraseGroup.Value)
-                    {
-                        Console.WriteLine("    " + phrase);
-                    }
-                }
-            }
-
-            //english
-            //  greetings
-            //      Hello
-            //      Hello2
-            //      Hello3
-            //  responses
-            //      WHAT?
-            //      greetings old<gender2>
-            //      Sup?
-            //french
-            //  greetings
-            //      Bonjour
-            //      Bonjour2
-            //      Bonjour3
-            //  responses
-            //      (none)
-            //spanish
-            //  greetings
-            //      Hola
-            //      Hola2
-            //      Hola3
-            //  responses
-            //      (none)
+            LineGeo.Color = Colors.DarkRed;
         }
     }
 }

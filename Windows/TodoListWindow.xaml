@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CookieEdit2.Windows"
         mc:Ignorable="d"
         Title="TodoListWindow" Height="189" Width="625">
-    
+
     <Window.Resources>
         <Style TargetType="ListViewItem">
             <Setter Property="Height" Value="Auto"/>
@@ -20,10 +20,15 @@
         <Style TargetType="Grid" x:Key="cell">
             <Setter Property="Background" Value="#69CB0000"></Setter>
         </Style>
-        
+
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Background" Value="#FF762CA0"/>
+            <Setter Property="BorderBrush" Value="#FFD15454"/>
+        </Style>
+
 
     </Window.Resources>
-    
+
     <Grid>
         <ListView>
             <ListView.View>
@@ -57,7 +62,7 @@
                     </GridViewColumn>
                 </GridView>
             </ListView.View>
-            
+
             <ListViewItem/>
             <ListViewItem/>
             <ListViewItem/>

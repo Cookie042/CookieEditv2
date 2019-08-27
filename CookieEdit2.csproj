@@ -59,6 +59,18 @@
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Cyotek.Drawing.BitmapFont, Version=1.0.0.0, Culture=neutral, PublicKeyToken=58daa28b0b2de221, processorArchitecture=MSIL">
+      <HintPath>..\CookieEditSolution\packages\Cyotek.Drawing.BitmapFont.1.3.4\lib\net46\Cyotek.Drawing.BitmapFont.dll</HintPath>
+    </Reference>
+    <Reference Include="HelixToolkit, Version=2.9.0.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
+      <HintPath>..\CookieEditSolution\packages\HelixToolkit.2.9.0\lib\netstandard1.1\HelixToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="HelixToolkit.Wpf.Input, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\CookieEditSolution\packages\HelixToolkit.Wpf.Input.2.9.0\lib\net45\HelixToolkit.Wpf.Input.dll</HintPath>
+    </Reference>
+    <Reference Include="HelixToolkit.Wpf.SharpDX, Version=2.9.0.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
+      <HintPath>..\CookieEditSolution\packages\HelixToolkit.Wpf.SharpDX.2.9.0\lib\net45\HelixToolkit.Wpf.SharpDX.dll</HintPath>
+    </Reference>
     <Reference Include="LoreSoft.MathExpressions">
       <HintPath>..\repos\libs\expressions\LoreSoft.MathExpressions.dll</HintPath>
     </Reference>
@@ -66,6 +78,30 @@
       <HintPath>..\Json110r2\Bin\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\CookieEditSolution\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.D3DCompiler, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\CookieEditSolution\packages\SharpDX.D3DCompiler.4.2.0\lib\net45\SharpDX.D3DCompiler.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\CookieEditSolution\packages\SharpDX.Direct2D1.4.2.0\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\CookieEditSolution\packages\SharpDX.Direct3D11.4.2.0\lib\net45\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\CookieEditSolution\packages\SharpDX.Direct3D9.4.2.0\lib\net45\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\CookieEditSolution\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Mathematics, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\CookieEditSolution\packages\SharpDX.Mathematics.4.2.0\lib\net45\SharpDX.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.RawInput, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\CookieEditSolution\packages\SharpDX.RawInput.4.2.0\lib\net45\SharpDX.RawInput.dll</HintPath>
+    </Reference>
     <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\SlimDX SDK (January 2012)\Bin\net40\x64\SlimDX.dll</HintPath>
@@ -98,10 +134,14 @@
     <Compile Include="classes\FileManager.cs" />
     <Compile Include="classes\GCodeCommandReference.cs" />
     <Compile Include="classes\SerialIoSettings.cs" />
+    <Compile Include="DXCadView\BaseViewModel.cs" />
+    <Compile Include="DXCadView\Converters.cs" />
+    <Compile Include="DXCadView\ObservableObject.cs" />
+    <Compile Include="DXCadView\RelayCommand.cs" />
+    <Compile Include="DxViewModel.cs" />
     <Compile Include="experimentalUI.xaml.cs">
       <DependentUpon>experimentalUI.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FillRectangle.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Windows\Calculator.xaml.cs">
       <DependentUpon>Calculator.xaml</DependentUpon>
@@ -110,6 +150,9 @@
     <Compile Include="classes\RenderEngine.cs" />
     <Compile Include="Windows\CalcWindow.xaml.cs">
       <DependentUpon>CalcWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\HelixTestWindow.xaml.cs">
+      <DependentUpon>HelixTestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\MacroWindow.xaml.cs">
       <DependentUpon>MacroWindow.xaml</DependentUpon>
@@ -149,6 +192,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\HelixTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MacroWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -184,6 +231,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -881,14 +929,15 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FastColoredTextBox\FastColoredTextBox.csproj">
+    <ProjectReference Include="..\FCTB\FastColoredTextBox\FastColoredTextBox.csproj">
       <Project>{6dd14a85-ccfc-4774-bd26-0f5772512319}</Project>
       <Name>FastColoredTextBox</Name>
     </ProjectReference>
-    <ProjectReference Include="..\slimdxcontrol-1.0.0\SlimDXControlLib\SlimDXControlLib.csproj">
+    <ProjectReference Include="..\slimdxcontrol\SlimDXControlLib\SlimDXControlLib.csproj">
       <Project>{dbebb228-9b42-4b9a-b658-8588977a159e}</Project>
       <Name>SlimDXControlLib</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

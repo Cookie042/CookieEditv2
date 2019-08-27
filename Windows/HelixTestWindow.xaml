@@ -1,0 +1,31 @@
+﻿<Window x:Class="CookieEdit2.Windows.HelixTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CookieEdit2.Windows"
+        xmlns:dx="http://helix-toolkit.org/wpf/SharpDX"
+        xmlns:cookieEdit2="clr-namespace:CookieEdit2"
+        mc:Ignorable="d"
+        Title="HelixTestWindow" Height="300" Width="300">
+    <Grid>
+        <dx:Viewport3DX x:Name="Viewport3Dx"
+            Camera="{Binding Camera}"
+            ModelUpDirection="{Binding UpDirVector}"
+            FXAALevel="Low"
+            Background="CornflowerBlue"
+            EffectsManager="{Binding EffectsManager}">
+            <dx:AmbientLight3D Color="DimGray"/>
+            <dx:ScreenQuadModel3D Texture="{Binding BackgroundTexture}" />
+
+            <dx:LineGeometryModel3D 
+                Geometry="{Binding TableGrid}" 
+                Color="{Binding TableGridColor}" 
+                IsHitTestVisible="False"
+                Transform="{Binding TableXform}"
+                Thickness="1.5"/>
+
+                
+        </dx:Viewport3DX>
+    </Grid>
+</Window>

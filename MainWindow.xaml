@@ -6,9 +6,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:CookieEdit2"
     xmlns:d3d="clr-namespace:Flaxen.SlimDXControlLib;assembly=Flaxen.SlimDXControlLib"
-    xmlns:FastColoredTextBoxNS="clr-namespace:FastColoredTextBoxNS;assembly=FastColoredTextBox" x:Name="mainWindowControl"
+    xmlns:FastColoredTextBoxNS="clr-namespace:FastColoredTextBoxNS;assembly=FastColoredTextBox"
+    xmlns:hx="http://helix-toolkit.org/wpf/SharpDX"
+    x:Name="mainWindowControl"
     mc:Ignorable="d"
-    Title="CookieEdit v2.0" Height="423.5" Width="467.333" BorderBrush="Black" Loaded="MainWindowControl_Loaded" Foreground="White" OpacityMask="Black" Icon="resources\icons\cookie.png" Background="#FF2E2E2E">
+    Title="CookieEdit v2.0" Height="423.5" Width="651.833" BorderBrush="Black" Loaded="MainWindowControl_Loaded" Foreground="White" OpacityMask="Black" Icon="resources\icons\cookie.png" Background="#FF2E2E2E">
     <Window.Resources>
 
 
@@ -97,7 +99,7 @@
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="grid_left" Width="1.5*"/>
+                <ColumnDefinition x:Name="grid_left" Width="1*"/>
                 <ColumnDefinition x:Name="grid_right"  Width="1*"/>
             </Grid.ColumnDefinitions>
 
@@ -178,14 +180,41 @@
               Background="#FF255187" ShowsPreview="true" Width="2" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="-1,0,0,0" BorderBrush="Black"/>
 
             <DockPanel Grid.Column="1" Name="dp">
+                <DockPanel.DataContext>
+                    <local:DxViewModel/>
+                </DockPanel.DataContext>
                 <StackPanel x:Name="graphicsToolbar" Orientation="Horizontal" FlowDirection="LeftToRight" DockPanel.Dock="Top" Margin="1,0,0,0" VerticalAlignment="Top">
                     <Button Style="{StaticResource toolbarButtonStyle}" Click="Button_Click" />
-                    <Button Style="{StaticResource toolbarButtonStyle}" Click="Button_Click_1" />
+                    <Button Style="{StaticResource toolbarButtonStyle}" />
                     <Button Style="{StaticResource toolbarButtonStyle}" />
                     <Button Style="{StaticResource toolbarButtonStyle}" />
                 </StackPanel>
 
+                <hx:Viewport3DX 
+                    x:Name="Viewport3Dx"
+                    Camera="{Binding Camera}"
+                    ModelUpDirection="{Binding UpDirVectorD}"
+                    ShowCoordinateSystem="True"
+                    FXAALevel="Low"
+                    Background="black"
+                    EffectsManager="{Binding EffectsManager}"
+                    EnableDesignModeRendering="True">
+                    <hx:AmbientLight3D Color="White"/>
+                    <hx:ScreenQuadModel3D Texture="{Binding BackgroundTexture}" />
 
+                    <hx:LineGeometryModel3D x:Name="LineGeo" 
+                        Geometry="{Binding TableGrid}" 
+                        IsHitTestVisible="False"
+                        Transform="{Binding TableXform}"
+                        Thickness=".5" Color="#FF747474"/>
+                    <hx:LineGeometryModel3D 
+                        Geometry="{Binding TableGrid2}" 
+                        IsHitTestVisible="False"
+                        Transform="{Binding TableXform2}"
+                        Thickness="1.5" Color="#FF686868"/>
+
+
+                </hx:Viewport3DX>
                 <!--<d3d:SlimDXControl x:Name="SDXControl" KeyDown="x_contentControl1_KeyDown"/>-->
 
             </DockPanel>
