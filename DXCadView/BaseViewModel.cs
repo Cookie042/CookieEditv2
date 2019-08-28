@@ -14,33 +14,22 @@ using HelixToolkit.Wpf.SharpDX;
 
 namespace CookieEdit2.DXCadView
 {
+    public enum cameraProjection { Perspective, Orthographic }
+
     /// <summary>
     /// Base ViewModel for Demo Applications?
     /// </summary>
     public abstract class BaseViewModel : ObservableObject, IDisposable
     {
-        public const string Orthographic = "Orthographic Camera";
-
-        public const string Perspective = "Perspective Camera";
-
-        private string cameraModel;
-
+        private cameraProjection camProjection;
         private Camera camera;
-
         private string subTitle;
-
         private string title;
 
         public string Title
         {
-            get
-            {
-                return title;
-            }
-            set
-            {
-                SetValue(ref title, value, "Title");
-            }
+            get => title;
+            set => SetValue(ref title, value, "Title");
         }
 
         public string SubTitle
@@ -55,17 +44,12 @@ namespace CookieEdit2.DXCadView
             }
         }
 
-        public List<string> CameraModelCollection { get; private set; }
-
-        public string CameraModel
+        public cameraProjection CameraProjection
         {
-            get
-            {
-                return cameraModel;
-            }
+            get => camProjection;
             set
             {
-                if (SetValue(ref cameraModel, value, "CameraModel"))
+                if (SetValue(ref camProjection, value, "cameraProjection"))
                 {
                     OnCameraModelChanged();
                 }
@@ -74,65 +58,39 @@ namespace CookieEdit2.DXCadView
 
         public Camera Camera
         {
-            get
-            {
-                return camera;
-            }
+            get => camera;
 
             protected set
             {
                 SetValue(ref camera, value, "Camera");
-                CameraModel = value is PerspectiveCamera
-                                       ? Perspective
-                                       : value is OrthographicCamera ? Orthographic : null;
+                camProjection = value is PerspectiveCamera ? cameraProjection.Perspective : cameraProjection.Orthographic;
             }
         }
         private IEffectsManager effectsManager;
         public IEffectsManager EffectsManager
         {
-            get { return effectsManager; }
-            protected set
-            {
-                SetValue(ref effectsManager, value);
-            }
+            get => effectsManager;
+            protected set => SetValue(ref effectsManager, value);
         }
 
         protected OrthographicCamera defaultOrthographicCamera = new OrthographicCamera { Position = new System.Windows.Media.Media3D.Point3D(0, 0, 5), LookDirection = new System.Windows.Media.Media3D.Vector3D(-0, -0, -5), UpDirection = new System.Windows.Media.Media3D.Vector3D(0, 1, 0), NearPlaneDistance = 1, FarPlaneDistance = 100 };
-
         protected PerspectiveCamera defaultPerspectiveCamera = new PerspectiveCamera { Position = new System.Windows.Media.Media3D.Point3D(0, 0, 5), LookDirection = new System.Windows.Media.Media3D.Vector3D(-0, -0, -5), UpDirection = new System.Windows.Media.Media3D.Vector3D(0, 1, 0), NearPlaneDistance = 0.5, FarPlaneDistance = 150 };
 
         public event EventHandler CameraModelChanged;
 
         protected BaseViewModel()
         {
-            // camera models
-            CameraModelCollection = new List<string>()
-            {
-                Orthographic,
-                Perspective,
-            };
-
             // on camera changed callback
             CameraModelChanged += (s, e) =>
             {
-                if (cameraModel == Orthographic)
-                {
-                    if(!(Camera is OrthographicCamera))
-                        Camera = defaultOrthographicCamera;
-                }
-                else if (cameraModel == Perspective)
-                {
-                    if(!(Camera is PerspectiveCamera))
-                        Camera = defaultPerspectiveCamera;
-                }
+                if (camProjection == cameraProjection.Orthographic)
+                    Camera = defaultOrthographicCamera;
                 else
-                {
-                    throw new HelixToolkitException("Camera Model Error.");
-                }
+                    Camera = defaultPerspectiveCamera;
             };
 
             // default camera model
-            CameraModel = Perspective;
+            CameraProjection = cameraProjection.Perspective;
 
             Title = "Demo (HelixToolkitDX)";
             SubTitle = "Default Base View Model";
@@ -141,10 +99,7 @@ namespace CookieEdit2.DXCadView
         protected virtual void OnCameraModelChanged()
         {
             var eh = CameraModelChanged;
-            if (eh != null)
-            {
-                eh(this, new EventArgs());
-            }
+            eh?.Invoke(this, new EventArgs());
         }
 
         public static MemoryStream LoadFileToMemory(string filePath)

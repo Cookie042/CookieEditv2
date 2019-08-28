@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Windows;
-using SlimDX;
 
 using FastColoredTextBoxNS;
 using System.Text.RegularExpressions;
-using Flaxen.SlimDXControlLib;
 using System.Windows.Input;
 using System.Windows.Forms.Integration;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Windows.Media;
-using CookieEdit2.Windows;
-using Newtonsoft.Json;
 using Clipboard = System.Windows.Clipboard;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
@@ -126,7 +120,7 @@ namespace CookieEdit2
             // window startPosition & size
             //Width = 1000;
             Left = 300;
-            Top = IsHomePc ? 200 : -1100;
+            //Top = IsHomePc ? 200 : -1100;
             //Height = 600;
 
 
@@ -349,9 +343,18 @@ G28 X0 Y0 Z0
             gui.Show();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ToobarButton1Click(object sender, RoutedEventArgs e)
         {
-            LineGeo.Color = Colors.DarkRed;
+        }
+
+        private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+
+            Color? sc = MajorColorPicker.SelectedColor;
+            if (sc.HasValue && LineGeo != null)
+            {
+                LineGeo.Color = sc.Value;
+            }
         }
     }
 }
