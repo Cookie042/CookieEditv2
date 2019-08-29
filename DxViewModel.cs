@@ -48,8 +48,8 @@ namespace CookieEdit2
             //TableXform2 = new Media3D.TranslateTransform3D(0, 0, 0).PrependTransform(new Media3D.ScaleTransform3D(12,12,12));
 
             GridView = new GridViewModel(
-                Color.FromArgb(89, 255, 0, 0),
-                Color.FromArgb(87, 0, 0, 255),
+                Color.FromArgb(80, 0, 0, 0),
+                Color.FromArgb(87, 80, 80, 80),
                 new Point3D(0, 0, 0),
                 Rotation3D.Identity,
                 new Point3DInt(48, 24, 0),
@@ -61,7 +61,7 @@ namespace CookieEdit2
 
             BoxTransform = new Media3D.TranslateTransform3D(24, 12, -.51);
 
-            MeshMaterial = PhongMaterials.Gray;
+            MeshMaterial = PhongMaterials.White;
 
             var dir = new Vector3D(3, -10, 7);
             dir.Normalize();

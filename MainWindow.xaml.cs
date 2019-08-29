@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 using System.Windows.Forms.Integration;
 using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
 using System.Windows.Media;
 using Clipboard = System.Windows.Clipboard;
@@ -43,6 +44,7 @@ namespace CookieEdit2
         //Constructor
         public MainWindow()
         {
+
             InitializeComponent();
             
             instance = this;
@@ -60,6 +62,8 @@ namespace CookieEdit2
             //win.Show();
 
         }
+
+
 
         private void Fctb_ToolTipNeeded(object sender, ToolTipNeededEventArgs e)
         {
