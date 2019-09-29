@@ -22,5 +22,23 @@ namespace CookieEdit2.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFFFF")]
+        public global::System.Windows.Media.Color GridMinorColor {
+            get {
+                return ((global::System.Windows.Media.Color)(this["GridMinorColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("#FFFFFFFF")]
+        public global::System.Windows.Media.Color GridMajorColor {
+            get {
+                return ((global::System.Windows.Media.Color)(this["GridMajorColor"]));
+            }
+        }
     }
 }

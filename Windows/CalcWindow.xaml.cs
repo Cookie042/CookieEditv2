@@ -1,10 +1,10 @@
-﻿using System.Windows;
-using LoreSoft.MathExpressions;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
+using System.Windows;
+using LoreSoft.MathExpressions;
 
-namespace CookieEdit2
+namespace CookieEdit2.Windows
 {
     /// <summary>
     /// Interaction logic for CalcWindow.xaml

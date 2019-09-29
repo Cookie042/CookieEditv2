@@ -2,6 +2,7 @@
 using System.IO.Ports;
 using System.Windows;
 using System.Windows.Controls;
+using CookieEdit2.classes;
 
 namespace CookieEdit2.Windows
 {

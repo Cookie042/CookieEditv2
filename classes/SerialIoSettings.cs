@@ -1,7 +1,7 @@
-﻿using System.Runtime.Serialization;
-using System.IO.Ports;
+﻿using System.IO.Ports;
+using System.Runtime.Serialization;
 
-namespace CookieEdit2
+namespace CookieEdit2.classes
 {
     [DataContract]
     public class SerialIoSettings

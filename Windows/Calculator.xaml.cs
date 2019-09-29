@@ -1,9 +1,8 @@
-﻿using System.Windows;
-using System.Text.RegularExpressions;
-
+﻿using System.Text.RegularExpressions;
+using System.Windows;
 using LoreSoft.MathExpressions;
 
-namespace CookieEdit2
+namespace CookieEdit2.Windows
 {
     /// <summary>
     /// Interaction logic for Calculator.xaml

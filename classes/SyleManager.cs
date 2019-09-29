@@ -1,14 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Windows.Forms;
-using System.Xml;
 using FastColoredTextBoxNS;
 using Newtonsoft.Json;
 using Env = System.Environment;
 
-namespace CookieEdit2
+namespace CookieEdit2.classes
 {
     public class SyleManager
     {

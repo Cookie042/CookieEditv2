@@ -8,6 +8,8 @@ using System.Windows.Forms.Integration;
 using System.Diagnostics;
 using System.Windows.Forms;
 using System.Windows.Media;
+using CookieEdit2.classes;
+using CookieEdit2.Windows;
 using Clipboard = System.Windows.Clipboard;
 using ContextMenu = System.Windows.Controls.ContextMenu;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;

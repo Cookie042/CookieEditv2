@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using CookieEdit2.DXCadView;
 using HelixToolkit.Wpf.SharpDX;
+using Newtonsoft.Json;
 using SharpDX;
 
 using Media3D = System.Windows.Media.Media3D;
@@ -20,6 +22,7 @@ namespace CookieEdit2
 {
     public class DxViewModel : BaseViewModel
     {
+
         public Vector3 UpDirVector => new Vector3(0, 1, 1);
         public Vector3D UpDirVectorD => new Vector3D(0, 0, 1);
         public Vector3 LightDir { get; private set; }

@@ -1,11 +1,10 @@
+using System;
 using System.Drawing;
-using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using FastColoredTextBoxNS;
 using Newtonsoft.Json;
-using System;
 
-namespace CookieEdit2
+namespace CookieEdit2.classes
 {
 
     [JsonObject(MemberSerialization.OptIn)]

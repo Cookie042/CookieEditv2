@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
 
-namespace CookieEdit2
+namespace CookieEdit2.classes
 {
     public class MacroVariableManager
     {

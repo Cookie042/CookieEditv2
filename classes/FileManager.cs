@@ -1,11 +1,9 @@
 ﻿using System;
-using Microsoft.Win32;
-using FastColoredTextBoxNS;
 using System.IO;
 using System.Windows;
-using Newtonsoft.Json;
+using Microsoft.Win32;
 
-namespace CookieEdit2
+namespace CookieEdit2.classes
 {
     public class FileManager
     {

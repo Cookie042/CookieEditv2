@@ -3,6 +3,7 @@ using System.Windows;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using CookieEdit2.classes;
 
 namespace CookieEdit2.Windows
 {

@@ -1,10 +1,15 @@
 ﻿<Application
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:sys="clr-namespace:System;assembly=mscorlib" xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="CookieEdit2.App"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" 
+             x:Class="CookieEdit2.App"
              StartupUri="MainWindow.xaml"
+             xmlns:props="clr-namespace:CookieEdit2.Properties" Exit="OnExit"
              >
     <Application.Resources>
+
+        <props:Settings x:Key="Settings"/>
 
         <SolidColorBrush x:Key="HighlightedBackgroundBrush" Color="#FF294263" />
         <SolidColorBrush x:Key="NormalBorderBrush" Color="White" />
