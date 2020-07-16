@@ -64,6 +64,7 @@ namespace CookieEdit2
 
             BoxTransform = new Media3D.TranslateTransform3D(24, 12, -.51);
 
+
             MeshMaterial = PhongMaterials.Gray;
 
             var dir = new Vector3D(3, -10, 7);
